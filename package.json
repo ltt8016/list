@@ -1,0 +1,18 @@
+{
+  "name": "registerlogin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "body-parser": "*",
+    "ejs": "*",
+    "express": "*",
+    "jquery": "^3.2.1",
+    "mysql": "^2.14.1"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=title[id]%></title>
+    <link rel="stylesheet" href="css/use.css">
+</head>
+<body>
+<div id="wrap">
+    <ul>
+        <%data.forEach(function(file){%>
+            <li>
+                <span><%=file.user%></span>
+                <span><button class="removeBtn" data-no=<%=file.no%>>删除</button></span>
+                <span><button class="updataBtn" data-no=<%=file.no%> data-user=<%=file.user%> data-pwd=<%=file.password%>>修改</button></span>
+            </li>
+        <%})%>
+        
+    </ul>
+    <p id="pp">
+        <b id="close">X</b>
+        用户名:<input type="text" id="name"><br/>
+        密<i>密</i>码:<input type="password" id="pass"><br/>
+        <button id="sure">确认修改？</button>
+    </p>
+</div>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function(){
+            $('.removeBtn').on('click', function(){
+                var id = $(this).data('no');
+                $.ajax({
+                    url: '/deletes?id=' + id,
+                    success: function (data) {
+                        alert(data.msg);
+                        if (data.code === 1) {
+                            location.reload();
+                        };
+                    }
+                });
+            });
+            var idd = null;
+            $('.updataBtn').on('click', function(){
+                $('#pp').show();
+                idd = $(this).data('no');
+                var user = $(this).data('user'),
+                    pws = $(this).data('pwd');
+                $('#name').val(user);
+                $('#pass').val(pws);
+            });
+            $('#sure').on('click',function(){
+                // console.log($('#name').val());
+                // console.log($('#pass').val());
+                // console.log(idd);
+                $('#pp').hide();
+                $.ajax({
+                    url: '/update',
+                    type: 'post',
+                    data: {user: $('#name').val(), pwd: $('#pass').val(), id: idd}, 
+                    success: function(data){
+                        console.log(data);
+                       alert(data.msg);
+                        if (data.code === 1) {
+                            location.reload();
+                        };
+                    }
+                })
+            });
+            $('#close').on('mouseover', function(){
+                $(this).addClass('ccc');
+            }).on('mouseout', function(){
+                $(this).removeClass('ccc');
+            }).on('click', function(){
+                $('#pp').hide();
+            })
+        });
+    </script>
+</body>
+</html>
